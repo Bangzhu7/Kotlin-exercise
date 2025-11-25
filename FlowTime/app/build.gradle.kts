@@ -2,6 +2,7 @@ plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.kotlin.compose)
+    id("kotlin-kapt")
 }
 
 android {
@@ -72,4 +73,17 @@ dependencies {
     // 这是确保您能使用 Icons.Filled.Timer 等图标的扩展库
     implementation("androidx.compose.material:material-icons-extended") // ⬅️ 请添加这一行
 // Or the latest version
+
+    // --- Room 持久化库 ---
+    val room_version = "2.6.2"
+
+    // 1. Room Runtime 和 KTX (必须)
+    implementation("androidx.room:room-runtime:$room_version")
+
+    // 2. Room Compiler - 仅保留 KAPT 配置
+    // 移除 annotationProcessor 和 ksp 的引用
+    kapt("androidx.room:room-compiler:$room_version") // ✅ 只保留这一行
+
+    // 3. Kotlin Extensions and Coroutines support for Room (必须)
+    implementation("androidx.room:room-ktx:$room_version")
 }
